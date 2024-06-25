@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.115.227.59:8848
+        namespace: b2a8694e-1048-4e11-ad87-1245968a4f96
+      config:
+        server-addr: 47.115.227.59:8848
+        namespace: b2a8694e-1048-4e11-ad87-1245968a4f96  #目前读取多配置文件的方式只支持在同一个命名空间下
+        file-extension: yaml
+        extension-configs: #可以读多个配置文件  需要在同一个命名空间下面可以是不同的组
+          - dataId: common-test.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: quartz-test.yaml
+            group: DEFAULT_GROUP
+            refresh: true

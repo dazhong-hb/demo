@@ -1,0 +1,148 @@
+spring:
+
+  # 服务注册发现与配置中心
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 127.0.0.1:8848
+        namespace: demo
+      config:
+        server-addr: 127.0.0.1:8848
+        namespace: demo
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        shared-configs: common.yaml
+
+  # MySQL数据库配置
+  datasource:
+    # 多数据源配置
+    dynamic:
+      # 设置默认的数据源或者数据源组，默认值即为master
+      primary: master
+      #严格匹配数据源,默认false. true未匹配到指定数据源时抛异常,false使用默认数据源
+      strict: false
+      # 数据库连接池配置
+      druid:
+        # 初始连接数
+        initial-size: 2
+        # 最小连接数
+        min-idle: 10
+        # 最大连接数
+        max-active: 50
+        # 获取连接超时时间
+        max-wait: 5000
+        # 连接有效性检测时间
+        time-between-eviction-runs-millis: 60000
+        # 连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        # 连接在池中最大生存的时间
+        max-evictable-idle-time-millis: 900000
+        # 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除
+        test-while-idle: true
+        # 指明是否在从池中取出连接前进行检验,如果检验失败, 则从池中去除连接并尝试取出另一个
+        test-on-borrow: true
+        # 是否在归还到池中前进行检验
+        test-on-return: false
+        # 检测连接是否有效
+        validation-query: select 1
+      datasource:
+        # 主数据源
+        master:
+          url: jdbc:mysql://127.0.0.1:3306/demo?useSSL=false&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false&allowMultiQueries=true&serverTimezone=GMT%2B8
+          username: demo
+          password: abc123
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+  # Redis 数据库配置
+  redis:
+    # 地址
+    host: 127.0.0.1
+    # 端口号
+    port: 6379
+    # 密码
+    password: abc123
+    # 默认数据库
+    database: 0
+    # 超时时间（毫秒），如果不设置，取默认值2000
+    timeout: 2000
+    # 连接池
+    jedis:
+      pool:
+        # 最大空闲数
+        maxIdle: 20
+        # 连接池的最大数据库连接数，设为0表示无限制
+        maxActive: 200
+        # 最大建立连接等待时间，如果超过此时间将接到异常。设为-1表示无限制。
+        maxWait: 2000
+
+# MybatisPlus配置
+mybatis-plus:
+  # 实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.lwz.demo.*.entity
+  mapper-locations: classpath*:/mapper/**/**.xml
+  configuration:
+    # 关闭sql日志（★★★★★ 平时请关闭日志，不然控制台会有很多sql日志输出 ★★★★★）
+    #    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    # 开启sql日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 全局性设置懒加载。如果设为false，则所有相关联的都会被初始化加载
+    lazy-loading-enabled: true
+    # 当设置为true的时候，懒加载的对象可能被任何懒属性全部加载。否则，每个属性都按需加载
+    aggressive-lazy-loading: false
+  global-config:
+    # 刷新mapper 调试神器
+    db-config:
+      # 主键类型 AUTO(0)：MP自动决定
+      ##  NONE(1)：生成语句插入null
+      ##  INPUT(2)：根据用户输入值
+      ##  D_WORKER(3)：全局唯一ID (数字类型唯一ID)
+      ##  UUID(4)：全局唯一ID UUID
+      ##  ID_WORKER_STR(5)：全局唯一ID (字符型类型唯一ID)
+      id-type: AUTO
+      # 生成的SQL语句中，表名是否自动加入驼峰转下划线（如SystemUser=>system_user）
+      table-underline: true
+      # 逻辑删除字段表示删除的值
+      logic-delete-value: 1
+      # 逻辑删除字段表示未删除的值
+      logic-not-delete-value: 0
+      # 是否开启大写命名，开启后生成SQL语句都为大写；默认不开启。
+      capital-mode: false
+
+# 在线文档配置
+knife4j:
+  # 开启增强模式
+  enable: true
+
+# 服务间调用配置
+feign:
+  # 熔断器
+  hystrix:
+    # 是否开启熔断器 (默认为：false）
+    enabled: false
+  # 客户端
+  client:
+    config:
+      # 全局配置
+      default:
+        # 连接超时时间
+        connectTimeout: 30000
+        # 读取超时时间
+        readTimeout: 30000
+        # 日志级别（basic：只记录请求方法和URL以及响应状态代码和执行时间）
+        loggerLevel: basic
+
+# 负载均衡器
+ribbon:
+  # 设置连接超时时间
+  #  ConnectTimeout: 30000
+  # 设置读取超时时间
+  #  ReadTimeout: 30000
+  # 对所有操作请求都进行重试
+  OkToRetryOnAllOperations: false
+  # 对当前实例的重试次数，默认值为0。不包括首次调用（需要负载的情况下触发）
+  MaxAutoRetries: 0
+  # 切换实例的重试次数，默认为1。不包括第一次选的实例（需要负载的情况下触发）
+  MaxAutoRetriesNextServer: 0
+

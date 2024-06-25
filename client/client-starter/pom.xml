@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.lwz</groupId>
+        <artifactId>client</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>client-starter</artifactId>
+
+    <dependencies>
+
+        <!-- 基础服务客户端 -->
+        <dependency>
+            <groupId>com.lwz</groupId>
+            <artifactId>open-client</artifactId>
+            <version>${open-client.version}</version>
+        </dependency>
+
+        <!-- 用户服务客户端 -->
+        <dependency>
+            <groupId>com.lwz</groupId>
+            <artifactId>user-client</artifactId>
+            <version>${user-client.version}</version>
+        </dependency>
+
+        <!-- 交易服务客户端 -->
+        <dependency>
+            <groupId>com.lwz</groupId>
+            <artifactId>transaction-client</artifactId>
+            <version>${transaction-client.version}</version>
+        </dependency>
+
+        <!-- 三方服务客户端 -->
+        <dependency>
+            <groupId>com.lwz</groupId>
+            <artifactId>third-client</artifactId>
+            <version>${third-client.version}</version>
+        </dependency>
+
+        <!-- 风控服务客户端 -->
+        <dependency>
+            <groupId>com.lwz</groupId>
+            <artifactId>risk-client</artifactId>
+            <version>${risk-client.version}</version>
+        </dependency>
+
+        <!-- 公共服务客户端 -->
+        <dependency>
+            <groupId>com.lwz</groupId>
+            <artifactId>cloud-client</artifactId>
+            <version>${cloud-client.version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,8 @@
+server:
+  port: 7074
+
+spring:
+  application:
+    name: third
+
+

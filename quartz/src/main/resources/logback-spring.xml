@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProperty name="server.name" scope="context" source="spring.application.name" defaultValue="quartz"/>
+    <!-- 日志存放路径 -->
+    <property name="log.path" value="/data/logs/demo-quartz"/>
+
+    <!-- 日志输出格式 -->
+    <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] [${server.name}-%X{X-B3-TraceId}-%X{X-B3-SpanId}] %-5level %logger{36} - %msg%n"/>
+
+    <!-- 控制台输出 -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 系统日志输出 -->
+    <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${log.path}.info.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 30天 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>INFO</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="file_warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${log.path}.warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 30天 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>WARN</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${log.path}.error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 30天 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>ERROR</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 依赖库日志级别 -->
+    <logger name="org.springframework" level="info"/>
+    <logger name="springfox" level="info"/>
+    <logger name="com.alibaba.nacos" level="info"/>
+    <logger name="com.alibaba.cloud" level="info"/>
+    <logger name="io.netty" level="info"/>
+    <logger name="org.hibernate" level="info"/>
+    <logger name="org.apache.http" level="info"/>
+    <logger name="com.zaxxer.hikari" level="info"/>
+    <logger name="o.quartz.core" level="info"/>
+    <logger name="org.redisson" level="info"/>
+    <logger name="com.netflix" level="info"/>
+
+    <!-- 生产环境 -->
+    <springProfile name="prod">
+        <!-- 系统操作日志 -->
+        <root level="info">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file_info"/>
+            <appender-ref ref="file_warn"/>
+            <appender-ref ref="file_error"/>
+        </root>
+    </springProfile>
+
+    <!-- 开发环境 | 测试环境 -->
+    <springProfile name="!prod">
+        <!-- 系统操作日志 -->
+        <root level="debug">
+            <appender-ref ref="console"/>
+            <appender-ref ref="file_info"/>
+            <appender-ref ref="file_warn"/>
+            <appender-ref ref="file_error"/>
+        </root>
+    </springProfile>
+
+</configuration>
